@@ -26,7 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        //$all_ads = Ad::where('user_id', Auth::user()->id)->get();
+        $all_ads = Auth::user()->ads;
+        return view('home', ['all_ads'=>$all_ads]);
     }
 
     public function addDeposit()
@@ -104,5 +106,12 @@ class HomeController extends Controller
         ]);
 
         return redirect(route('home'));
+    }
+
+    public function showSingleAd($id)
+    {
+        $single_ad = Ad::find($id);
+
+        return view('home.singleAd', ['single_ad'=>$single_ad]);
     }
 }

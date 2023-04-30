@@ -8,6 +8,15 @@
         </div>
         <div class="col-8">
             <h1>All Ads</h1>
+            <ul class="list-group">
+                @foreach ($all_ads as $ad)
+                    <li class="list-group-item">
+                        <a href="{{ route('home.singleAd', ['id'=>$ad->id])}}">
+                            {{$ad->title}}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
         </div>
     </div>
 </div>
