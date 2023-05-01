@@ -9,4 +9,9 @@ class Ad extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function category()
+    {
+        return $this->belongsTo('\App\Models\Category');
+    }
 }
