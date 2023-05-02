@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 26, 2023 at 08:17 PM
+-- Generation Time: May 02, 2023 at 05:48 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.2.0
 
@@ -33,9 +33,10 @@ CREATE TABLE IF NOT EXISTS `ads` (
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `body` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` int NOT NULL,
-  `image1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image3` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `views` int NOT NULL DEFAULT '0',
+  `image1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
   `category_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -43,7 +44,16 @@ CREATE TABLE IF NOT EXISTS `ads` (
   PRIMARY KEY (`id`),
   KEY `ads_user_id_foreign` (`user_id`),
   KEY `ads_category_id_foreign` (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ads`
+--
+
+INSERT INTO `ads` (`id`, `title`, `body`, `price`, `views`, `image1`, `image2`, `image3`, `user_id`, `category_id`, `created_at`, `updated_at`) VALUES
+(4, 'sveee', 'aaaaaaa', 144000, 2, '16828069451.jpg', '16828069452.jpg', '16828069453.jpg', 1, 2, '2023-04-29 20:22:25', '2023-05-02 12:10:28'),
+(5, 'Tastatura Asus', 'tekst ya tastaturu', 10050, 8, '16828827201.jpg', '16828827202.jpg', '16828827203.jpg', 1, 1, '2023-04-30 17:25:20', '2023-05-02 12:11:23'),
+(6, 'Dell laptop', 'dell laptop text', 45000, 12, '16829689621.jpg', NULL, NULL, 2, 2, '2023-05-01 17:22:42', '2023-05-02 11:51:27');
 
 -- --------------------------------------------------------
 
@@ -58,7 +68,15 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'tastature', '2023-04-29 17:25:57', '2023-04-29 17:26:14'),
+(2, 'kompjuteri', '2023-04-29 17:30:27', '2023-04-29 17:30:27');
 
 -- --------------------------------------------------------
 
@@ -96,7 +114,20 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `messages_ad_id_foreign` (`ad_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `text`, `sender_id`, `receiver_id`, `ad_id`, `created_at`, `updated_at`) VALUES
+(1, 'poydrav milane', 1, 2, 6, '2023-05-02 11:51:01', '2023-05-02 11:51:01'),
+(2, 'Pozdrav Milance!!', 1, 2, 6, '2023-05-02 11:51:27', '2023-05-02 11:51:27'),
+(3, 'Poruka ya Pera od Milana', 2, 1, 5, '2023-05-02 12:11:23', '2023-05-02 12:11:23'),
+(4, 'Cao Pero', 2, 1, 6, '2023-05-02 13:40:10', '2023-05-02 13:40:10'),
+(5, 'Kako je tigre?', 2, 1, 6, '2023-05-02 13:40:42', '2023-05-02 13:40:42'),
+(6, 'Radi li aparat za kafu kod tigra?', 1, 2, 6, '2023-05-02 13:42:18', '2023-05-02 13:42:18'),
+(7, 'Mrsss!', 1, 2, 6, '2023-05-02 13:53:49', '2023-05-02 13:53:49');
 
 -- --------------------------------------------------------
 
@@ -110,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -124,7 +155,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (6, '2023_04_26_195250_create_categories_table', 1),
 (7, '2023_04_26_195444_create_ads_table', 1),
-(8, '2023_04_26_200342_create_messages_table', 1);
+(8, '2023_04_26_200342_create_messages_table', 1),
+(9, '2023_05_01_201633_add_views_to_ads', 2);
 
 -- --------------------------------------------------------
 
@@ -196,14 +228,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `deposit`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Pera', 'pera@gmail.com', NULL, NULL, '$2y$10$hlSaLSGw4pwVDL0r03NNFObRWl4MQSvZVJUEwZkLHyrttUgZQEjxy', NULL, '2023-04-26 18:11:27', '2023-04-26 18:11:27');
+(1, 'Pera', 'pera@gmail.com', NULL, '2010', '$2y$10$U4.qZGZ/XVFtyIi12U6t4uGHzmB2GnjnBfxrWabU4s.3iFoVkskmS', NULL, '2023-04-29 17:21:36', '2023-04-29 19:25:51'),
+(2, 'Milan', 'milan@gmail.com', NULL, NULL, '$2y$10$ZQEvva7Y5CvfNo2RC4g0Le67FxyLoLJt1tCoiNnmP27jWN4QWSHp6', NULL, '2023-05-01 17:22:13', '2023-05-01 17:22:13');
 
 --
 -- Constraints for dumped tables
